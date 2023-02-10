@@ -70,3 +70,8 @@ crashlytics-build.properties
 # Temporary auto-generated Android Assets
 /[Aa]ssets/[Ss]treamingAssets/aa.meta
 /[Aa]ssets/[Ss]treamingAssets/aa/*
+
+# Ignore all Packages inner folders, so keep: 
+# - /Packages/manifest
+# - /Packages/packages-lock
+/[Pp]ackages/*/
