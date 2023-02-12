@@ -1,40 +1,42 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.AI;
 
 public class PlayerNavMesh : MonoBehaviour
 {
     [SerializeField]
-    private Transform moveToPosTransform;
+    //private Transform moveToPosTransform;
     //public bool enemyIsDead;
 
     NavMeshAgent navMeshAgent;
-    int amountOfLife;
+    public int amountOfLife;
     public TextMesh TextMesh;
-    Vector3 startPos = new Vector3(0.1f, 0.9f, 13.64f);
+    Vector3 startPos = new Vector3(12.53f, 0, 11.94f);
+    Vector3 destination=new Vector3(14.8f,0.15f,-15.71f);
+    public int EnemyMoney;
     // Start is called before the first frame update
     void Start()
     {
         navMeshAgent = GetComponent<NavMeshAgent>();
-        
-        amountOfLife = 4;
         TextMesh.text = amountOfLife.ToString();
         GameManager.Instance.enemyList.Add(gameObject);
     }
 
     void OnDestroy()
     {
-        GameManager.Instance.OnEnemyDead(gameObject);
+        GameManager.Instance.OnEnemyDead(gameObject,EnemyMoney);
+
     }
 
     // Update is called once per frame
     void Update()
     {
-        navMeshAgent.destination = moveToPosTransform.position;
-        if (amountOfLife == 0)
+
+        navMeshAgent.destination = destination;
+        if (amountOfLife <= 0&&(!gameObject.IsDestroyed()))
         {
-            Instantiate(gameObject, startPos, gameObject.transform.localRotation);
             Destroy(gameObject);
 
         }
@@ -45,7 +47,7 @@ public class PlayerNavMesh : MonoBehaviour
         {
             if (amountOfLife > 0)
             {
-                amountOfLife = amountOfLife - 1;
+                amountOfLife = amountOfLife - other.gameObject.GetComponent<MissileMovement>().damage;
             }
             TextMesh.text = amountOfLife.ToString();
         }

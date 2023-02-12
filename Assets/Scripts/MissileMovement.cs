@@ -8,6 +8,7 @@ public class MissileMovement : MonoBehaviour
     public GameObject TargetEnemy;
     public bool startFire;
 
+    public int damage;
     //Transform Enemy;
     // Start is called before the first frame update
     void Start()

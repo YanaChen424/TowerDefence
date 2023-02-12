@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Fire
   - placement
+  - Tower
   layers:
   - Default
   - TransparentFX

@@ -7,10 +7,11 @@ using TMPro;
 
 public class GameManager : MonoBehaviour
 {
-    public GameObject Tower;
 
     public string towerNameButton;
-
+    int firstTowerCount;
+    int secondTowerCount;
+    int thirdTowerCount;
 
     public static GameManager _instance;
     public static GameManager Instance
@@ -22,10 +23,13 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    public float CreateTime { get; private set; }
+
     public List<GameObject> enemyList = new List<GameObject> ();
-    public List<GameObject> towerList = new List<GameObject>(3);
+    public List<GameObject> towerList = new List<GameObject>();
+    public List<GameObject> enemyTypeList = new List<GameObject>();
 
-
+    Vector3 startPos = new Vector3(12.53f, 0, 11.94f);
     //PlayerNavMesh enemyIsDead;
     public int enemyCount;
     //int towerCount;
@@ -63,6 +67,7 @@ public class GameManager : MonoBehaviour
                         Instantiate(towerList[0], hitPoint.point, towerList[0].transform.localRotation);
                         bankAccountCalc -= 2;
                         bankAccount.text = bankAccountCalc.ToString();
+                        firstTowerCount++;
                     }
                 }
                 else if (towerList[1].name == towerNameButton)
@@ -72,6 +77,7 @@ public class GameManager : MonoBehaviour
                         Instantiate(towerList[1], hitPoint.point, towerList[1].transform.localRotation);
                         bankAccountCalc -= 4;
                         bankAccount.text = bankAccountCalc.ToString();
+                        secondTowerCount++;
                     }
                 }
                 else if (towerList[2].name == towerNameButton)
@@ -81,21 +87,70 @@ public class GameManager : MonoBehaviour
                         Instantiate(towerList[2], hitPoint.point, towerList[2].transform.localRotation);
                         bankAccountCalc -= 5;
                         bankAccount.text = bankAccountCalc.ToString();
+                        thirdTowerCount++;
                     }
                 }
             }
         }
-        if (towerNameButton != null)
-        {
-            print(towerNameButton);
-        }
+        //else if(Input.GetMouseButtonDown(1))
+        //{
+        //    Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+        //    RaycastHit hitPoint;
+        //    if (Physics.Raycast(ray, out hitPoint) && hitPoint.collider.CompareTag("Tower"))
+        //    {
+        //        if (towerList[0].name == towerNameButton)
+        //        {
+        //                bankAccountCalc += 2;
+        //                bankAccount.text = bankAccountCalc.ToString();
+        //                Destroy(towerList[0]);
+                  
+        //        }
+        //        else if (towerList[1].name == towerNameButton)
+        //        {
+        //                bankAccountCalc += 4;
+        //                bankAccount.text = bankAccountCalc.ToString();
+        //                Destroy(towerList[1]);
 
+        //        }
+        //        else if (towerList[2].name == towerNameButton)
+        //        {
+        //                bankAccountCalc += 5;
+        //                bankAccount.text = bankAccountCalc.ToString();
+        //                Destroy(towerList[2]);
+
+        //        }
+        //    }
+        //}
+        //if (towerNameButton != null)
+        //{
+        //    print(towerNameButton);
+        //}
+
+        if(Time.time - CreateTime >= 2&&Time.time<30)
+        {
+            Instantiate(enemyTypeList[0],startPos, enemyTypeList[0].transform.localRotation);
+            CreateTime = Time.time;
+        }
+        if (Time.time - CreateTime >= 2 && Time.time < 80 && Time.time >= 30)
+        {
+            Instantiate(enemyTypeList[0], startPos, enemyTypeList[0].transform.localRotation);
+            Instantiate(enemyTypeList[1], startPos, enemyTypeList[0].transform.localRotation);
+            CreateTime = Time.time;
+        }
+        if (Time.time - CreateTime >= 2 && Time.time < 120&& Time.time >= 80)
+        {
+            Instantiate(enemyTypeList[0], startPos, enemyTypeList[0].transform.localRotation);
+            Instantiate(enemyTypeList[1], startPos, enemyTypeList[0].transform.localRotation);
+            Instantiate(enemyTypeList[2], startPos, enemyTypeList[0].transform.localRotation);
+            CreateTime = Time.time;
+        }
     }
-    public void OnEnemyDead(GameObject enemy) // looks good! :)
+    public void OnEnemyDead(GameObject enemy,int enemyMoney) // looks good! :)
     {
         enemyList.Remove(enemy);
         enemyCount++;
-        bankAccountCalc += 2;
+        bankAccountCalc += enemyMoney;
+;
         bankAccount.text = bankAccountCalc.ToString();
     }
 }
