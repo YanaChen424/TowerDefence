@@ -24,12 +24,14 @@ public class GameManager : MonoBehaviour
     }
 
     public float CreateTime { get; private set; }
+    public GameObject SourceMarker;
+    public GameObject TargetMarker;
 
     public List<GameObject> enemyList = new List<GameObject> ();
     public List<GameObject> towerList = new List<GameObject>();
     public List<GameObject> enemyTypeList = new List<GameObject>();
 
-    Vector3 startPos = new Vector3(12.53f, 0, 11.94f);
+    Vector3 startPos = new Vector3(22.99327f, 9.918213e-05f, -2.19f);
     //PlayerNavMesh enemyIsDead;
     public int enemyCount;
     //int towerCount;
@@ -40,6 +42,7 @@ public class GameManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        startPos = SourceMarker.transform.position;
         enemyCount = 0;
         bankAccountCalc = 0;
         bankAccount.text = "0";
@@ -66,7 +69,7 @@ public class GameManager : MonoBehaviour
                     {
                         Instantiate(towerList[0], hitPoint.point, towerList[0].transform.localRotation);
                         bankAccountCalc -= 2;
-                        bankAccount.text = bankAccountCalc.ToString();
+                        bankAccount.text = "Bank:" + bankAccountCalc.ToString();
                         firstTowerCount++;
                     }
                 }
@@ -76,7 +79,7 @@ public class GameManager : MonoBehaviour
                     {
                         Instantiate(towerList[1], hitPoint.point, towerList[1].transform.localRotation);
                         bankAccountCalc -= 4;
-                        bankAccount.text = bankAccountCalc.ToString();
+                        bankAccount.text = "Bank:" + bankAccountCalc.ToString();
                         secondTowerCount++;
                     }
                 }
@@ -86,7 +89,7 @@ public class GameManager : MonoBehaviour
                     {
                         Instantiate(towerList[2], hitPoint.point, towerList[2].transform.localRotation);
                         bankAccountCalc -= 5;
-                        bankAccount.text = bankAccountCalc.ToString();
+                        bankAccount.text = "Bank:" + bankAccountCalc.ToString();
                         thirdTowerCount++;
                     }
                 }
@@ -151,6 +154,6 @@ public class GameManager : MonoBehaviour
         enemyCount++;
         bankAccountCalc += enemyMoney;
 ;
-        bankAccount.text = bankAccountCalc.ToString();
+        bankAccount.text = "Bank:" + bankAccountCalc.ToString();
     }
 }

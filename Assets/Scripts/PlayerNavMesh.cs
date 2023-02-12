@@ -13,12 +13,15 @@ public class PlayerNavMesh : MonoBehaviour
     NavMeshAgent navMeshAgent;
     public int amountOfLife;
     public TextMesh TextMesh;
-    Vector3 startPos = new Vector3(12.53f, 0, 11.94f);
-    Vector3 destination=new Vector3(14.8f,0.15f,-15.71f);
+
+    Vector3 startPos;
+    Vector3 destination;
     public int EnemyMoney;
     // Start is called before the first frame update
     void Start()
     {
+        startPos = GameManager.Instance.SourceMarker.transform.position;
+        destination = GameManager.Instance.TargetMarker.transform.position;
         navMeshAgent = GetComponent<NavMeshAgent>();
         TextMesh.text = amountOfLife.ToString();
         GameManager.Instance.enemyList.Add(gameObject);
