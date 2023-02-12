@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -11,7 +12,7 @@ public class PlayerMouseMovement : MonoBehaviour
     void Start()
     {
         agent = GetComponent<NavMeshAgent>();
-        amountOfLife = 4;
+        amountOfLife = 8;
     }
 
     // Update is called once per frame
@@ -36,7 +37,7 @@ public class PlayerMouseMovement : MonoBehaviour
     {
         if (collision.gameObject.tag == "Fire")
         {
-            amountOfLife = amountOfLife - 1;
+            amountOfLife = amountOfLife - collision.gameObject.GetComponent<MissileMovement>().damage;
         }
     }
 

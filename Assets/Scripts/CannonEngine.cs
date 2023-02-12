@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
@@ -10,6 +11,8 @@ public class CannonEngine : MonoBehaviour
     [SerializeField] Transform ShootPoint;
     //public GameObject Enemy;
     float shootingTime;
+    public string cannonType;
+    public int towerDis;
     // Start is called before the first frame update
     void Start()
     {
@@ -20,11 +23,11 @@ public class CannonEngine : MonoBehaviour
     void Update()
     {
         var enemies = GameManager.Instance.enemyList;
-
+        cannonType = GameManager.Instance.towerNameButton;
         for (int i = 0; i < enemies.Count; i++)
         {
           
-            if (Vector3.Distance(transform.position, enemies[i].transform.position) <= 5)
+            if (Vector3.Distance(transform.position, enemies[i].transform.position) <= towerDis)
             {
                 transform.LookAt(enemies[i].transform.position);
                 if ((Time.time - shootingTime >= 1))
@@ -40,4 +43,5 @@ public class CannonEngine : MonoBehaviour
         }
 
     }
+
 }
