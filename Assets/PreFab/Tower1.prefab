@@ -494,3 +494,4 @@ MonoBehaviour:
   ShootPoint: {fileID: 4313142804275186634}
   cannonType: 
   towerDis: 5
+  CannonSellType: Tower1

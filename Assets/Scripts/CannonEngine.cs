@@ -13,6 +13,9 @@ public class CannonEngine : MonoBehaviour
     float shootingTime;
     public string cannonType;
     public int towerDis;
+
+    public string CannonSellType;
+
     // Start is called before the first frame update
     void Start()
     {

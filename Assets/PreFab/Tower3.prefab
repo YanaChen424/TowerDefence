@@ -380,6 +380,7 @@ MonoBehaviour:
   ShootPoint: {fileID: 2425041485085158524}
   cannonType: 
   towerDis: 9
+  CannonSellType: Tower3
 --- !u!1 &2425041485084864600
 GameObject:
   m_ObjectHideFlags: 0
