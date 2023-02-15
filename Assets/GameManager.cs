@@ -42,6 +42,10 @@ public class GameManager : MonoBehaviour
 
     GameObject towerColliderSell;
     string CannonSellType;
+
+    public int enemyReachTargetNum;
+
+
     // Start is called before the first frame update
     void Start()
     {
@@ -49,6 +53,7 @@ public class GameManager : MonoBehaviour
         enemyCount = 0;
         bankAccountCalc = 2;
         bankAccount.text = "Bank:" + bankAccountCalc.ToString();
+        
 
     }
 
@@ -135,6 +140,7 @@ public class GameManager : MonoBehaviour
             Instantiate(enemyTypeList[2], startPos, enemyTypeList[0].transform.localRotation);
             CreateTime = Time.time;
         }
+        
     }
 
     public void upgrade()
@@ -174,9 +180,6 @@ public class GameManager : MonoBehaviour
     }
 
 
-
-
-
     public void Sell()
     {
         print("sell");
@@ -210,12 +213,21 @@ public class GameManager : MonoBehaviour
         Destroy(towerColliderSell);
     }
 
-    public void OnEnemyDead(GameObject enemy,int enemyMoney) // looks good! :)
+    public void OnEnemyDead(GameObject enemy,int enemyMoney) 
     {
         enemyList.Remove(enemy);
         enemyCount++;
         bankAccountCalc += enemyMoney;
 ;
         bankAccount.text = "Bank:" + bankAccountCalc.ToString();
+    }
+
+    public void enemyReachTarget()
+    {
+        enemyReachTargetNum++;
+        if(enemyReachTargetNum == 4)
+        {
+            FindObjectOfType<SceneMenager>().Lose();
+        }
     }
 }
