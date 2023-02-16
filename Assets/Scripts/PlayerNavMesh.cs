@@ -17,6 +17,8 @@ public class PlayerNavMesh : MonoBehaviour
     Vector3 startPos;
     Vector3 destination;
     public int EnemyMoney;
+
+    
     // Start is called before the first frame update
     void Start()
     {
@@ -25,6 +27,7 @@ public class PlayerNavMesh : MonoBehaviour
         navMeshAgent = GetComponent<NavMeshAgent>();
         TextMesh.text = amountOfLife.ToString();
         GameManager.Instance.enemyList.Add(gameObject);
+        
     }
 
     void OnDestroy()
@@ -53,6 +56,13 @@ public class PlayerNavMesh : MonoBehaviour
                 amountOfLife = amountOfLife - other.gameObject.GetComponent<MissileMovement>().damage;
             }
             TextMesh.text = amountOfLife.ToString();
+        }
+        if (other.gameObject.name=="Flag")
+        {
+            GameManager.Instance.enemyReachTarget();
+            Destroy(gameObject);
+
+
         }
     }
 }

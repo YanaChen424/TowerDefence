@@ -7,7 +7,7 @@ using UnityEngine.UI;
 public class button : MonoBehaviour, ISelectHandler, IDeselectHandler
 {
     public bool IsSelected { get; private set; } = false;
-    // Start is called before the first frame update
+
     public void OnSelect(BaseEventData data)
     {
         IsSelected = true;

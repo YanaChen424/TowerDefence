@@ -8,6 +8,7 @@ TagManager:
   - placement
   - Tower
   - TowerPanel
+  - Enemy
   layers:
   - Default
   - TransparentFX
