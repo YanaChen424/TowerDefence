@@ -5,6 +5,8 @@ using Unity.VisualScripting;
 using UnityEngine;
 using TMPro;
 using System;
+using System.Linq;
+using UnityEngine.EventSystems;
 
 public class GameManager : MonoBehaviour
 {
@@ -62,45 +64,63 @@ public class GameManager : MonoBehaviour
         _instance = this;
     }
 
+    private bool IsOverMenuBars()
+    {
+        int uiLayer = 5;
+
+        PointerEventData pointerEventData = new PointerEventData(EventSystem.current);
+        pointerEventData.position = Input.mousePosition;
+
+        List<RaycastResult> results = new List<RaycastResult>();
+        EventSystem.current.RaycastAll(pointerEventData, results);
+
+        for (int i = 0; i < results.Count; i++)
+        {
+            if (results[0].gameObject.layer == uiLayer)
+                return true;
+        }
+
+        return false;
+    }
+
     // Update is called once per frame
     void Update()
     {
         if (Input.GetMouseButtonDown(0))
         {
-            
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
             RaycastHit hitPoint;
 
-            if (Physics.Raycast(ray, out hitPoint) && hitPoint.collider.CompareTag("placement")&&towerNameButton!=null)
+            if (Physics.Raycast(ray, out hitPoint) && hitPoint.collider.CompareTag("placement") && !IsOverMenuBars() && towerNameButton !=null)
             {
-                if (towerList[0].name == towerNameButton && towerNameButton != null)
+                if (towerList[0].name == towerNameButton)
                 {
                     if (bankAccountCalc >= 2)
                     {
                         Instantiate(towerList[0], hitPoint.point, towerList[0].transform.localRotation);
                         bankAccountCalc -= 2;
                         bankAccount.text = "Bank:" + bankAccountCalc.ToString();
-                        
+                        towerNameButton = null;
                     }
                 }
-                else if (towerList[1].name == towerNameButton && towerNameButton != null)
+                else if (towerList[1].name == towerNameButton)
                 {
                     if (bankAccountCalc >= 4)
                     {
                         Instantiate(towerList[1], hitPoint.point, towerList[1].transform.localRotation);
                         bankAccountCalc -= 4;
                         bankAccount.text = "Bank:" + bankAccountCalc.ToString();
-                        
+                        towerNameButton = null;
                     }
                 }
-                else if (towerList[2].name == towerNameButton && towerNameButton != null)
+                else if (towerList[2].name == towerNameButton)
                 {
                     if (bankAccountCalc >= 5)
                     {
                         Instantiate(towerList[2], hitPoint.point, towerList[2].transform.localRotation);
                         bankAccountCalc -= 5;
                         bankAccount.text = "Bank:" + bankAccountCalc.ToString();
-                        
+                        towerNameButton = null;
                     }
                 }
                 

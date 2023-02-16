@@ -11,7 +11,7 @@ public class button : MonoBehaviour, ISelectHandler, IDeselectHandler
     public void OnSelect(BaseEventData data)
     {
         IsSelected = true;
-        GameManager.Instance.towerNameButton=gameObject.name;
+        GameManager.Instance.towerNameButton = gameObject.name;
     }
 
     public void OnDeselect(BaseEventData data)
