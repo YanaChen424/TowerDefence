@@ -26,7 +26,7 @@ Transform:
   m_GameObject: {fileID: 4657076635541950821}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -11.06, y: 0.82, z: -7.43}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 2, y: 2, z: 2}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 4657076635541458267}
@@ -463,7 +463,7 @@ MonoBehaviour:
   missile: {fileID: 7404483440136348419, guid: 8555fa840fc64d4488d55cea7808ae6e, type: 3}
   ShootPoint: {fileID: 4657076635541458247}
   cannonType: 
-  towerDis: 7
+  towerDis: 14
   CannonSellType: Tower2
 --- !u!1 &4657076635541950843
 GameObject:
