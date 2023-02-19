@@ -18,6 +18,7 @@ public class PlayerNavMesh : MonoBehaviour
     Vector3 destination;
     public int EnemyMoney;
 
+    private Animator animator;
     
     // Start is called before the first frame update
     void Start()
@@ -27,6 +28,7 @@ public class PlayerNavMesh : MonoBehaviour
         navMeshAgent = GetComponent<NavMeshAgent>();
         TextMesh.text = amountOfLife.ToString();
         GameManager.Instance.enemyList.Add(gameObject);
+        animator = GetComponent<Animator>();
         
     }
 
@@ -43,10 +45,24 @@ public class PlayerNavMesh : MonoBehaviour
         navMeshAgent.destination = destination;
         if (amountOfLife <= 0&&(!gameObject.IsDestroyed()))
         {
-            Destroy(gameObject);
-
+            animator.SetBool("isDying", true);
+            navMeshAgent.speed = 0;
+            StartCoroutine(DisposeInDelay());
         }
     }
+
+    IEnumerator DisposeInDelay()
+    {
+        yield return new WaitForSeconds(1);
+
+        Destroy(gameObject);
+    }
+    IEnumerator HitInDelay()
+    {
+        yield return new WaitForSeconds(2);
+
+    }
+
     void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.CompareTag("Fire"))
@@ -54,10 +70,13 @@ public class PlayerNavMesh : MonoBehaviour
             if (amountOfLife > 0)
             {
                 amountOfLife = amountOfLife - other.gameObject.GetComponent<MissileMovement>().damage;
+                animator.SetBool("isHit", true);
+                navMeshAgent.speed--;
+                StartCoroutine(HitInDelay());
             }
             TextMesh.text = amountOfLife.ToString();
         }
-        if (other.gameObject.name=="Flag")
+        if (other.gameObject.name== "TragetMarker")
         {
             GameManager.Instance.enemyReachTarget();
             Destroy(gameObject);

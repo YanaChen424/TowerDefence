@@ -7,6 +7,7 @@ using TMPro;
 using System;
 using System.Linq;
 using UnityEngine.EventSystems;
+using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
 {
@@ -24,7 +25,9 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    public float CreateTime { get; private set; }
+    public float CreateTime1 { get; private set; }
+    public float CreateTime2 { get; private set; }
+    public float CreateTime3 { get; private set; }
     public GameObject SourceMarker;
     public GameObject TargetMarker;
 
@@ -47,6 +50,14 @@ public class GameManager : MonoBehaviour
 
     public int enemyReachTargetNum;
 
+    int enemyNumLevel1;
+    int enemyNumLevel2;
+    int enemyNumLevel3;
+    public GameObject Level1Image;
+    public GameObject Level2Image;
+    public GameObject Level3Image;
+
+
 
     // Start is called before the first frame update
     void Start()
@@ -55,7 +66,10 @@ public class GameManager : MonoBehaviour
         enemyCount = 0;
         bankAccountCalc = 2;
         bankAccount.text = "Bank:" + bankAccountCalc.ToString();
-        
+        enemyNumLevel1 = 0;
+        enemyNumLevel2 = 0;
+        enemyNumLevel3 = 0;
+
 
     }
 
@@ -91,7 +105,7 @@ public class GameManager : MonoBehaviour
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
             RaycastHit hitPoint;
 
-            if (Physics.Raycast(ray, out hitPoint) && hitPoint.collider.CompareTag("placement") && !IsOverMenuBars() && towerNameButton !=null)
+            if (Physics.Raycast(ray, out hitPoint) && hitPoint.collider.CompareTag("placement") && !IsOverMenuBars() && towerNameButton != null)
             {
                 if (towerList[0].name == towerNameButton)
                 {
@@ -123,44 +137,74 @@ public class GameManager : MonoBehaviour
                         towerNameButton = null;
                     }
                 }
-                
+
             }
         }
         else if (Input.GetMouseButtonDown(1))
         {
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
             RaycastHit hitPoint;
-            if (Physics.Raycast(ray, out hitPoint) && hitPoint.collider.CompareTag("Tower")&& hitPoint.collider.gameObject != null)
+            if (Physics.Raycast(ray, out hitPoint) && hitPoint.collider.CompareTag("Tower") && hitPoint.collider.gameObject != null)
             {
                 upgradePanel.SetActive(true);
                 towerColliderSell = hitPoint.collider.gameObject;
-                CannonSellType=towerColliderSell.GetComponentInChildren<CannonEngine>().CannonSellType;
+                CannonSellType = towerColliderSell.GetComponentInChildren<CannonEngine>().CannonSellType;
                 print(CannonSellType);
                 print(towerColliderSell.name);
-                
+
 
             }
         }
-
-        if (Time.time - CreateTime >= 2&&Time.time<30)
+        if (enemyNumLevel1 < 20)
         {
-            Instantiate(enemyTypeList[0],startPos, enemyTypeList[0].transform.localRotation);
-            CreateTime = Time.time;
+            if (enemyNumLevel1 == 0 && Time.time - CreateTime1 >= 4)
+            {
+                StartCoroutine(Level1Screen());
+            }
+            Level1();
         }
-        if (Time.time - CreateTime >= 2 && Time.time < 80 && Time.time >= 30)
+        else if (enemyNumLevel2 < 20)
         {
-            Instantiate(enemyTypeList[0], startPos, enemyTypeList[0].transform.localRotation);
-            Instantiate(enemyTypeList[1], startPos, enemyTypeList[0].transform.localRotation);
-            CreateTime = Time.time;
+            if (enemyNumLevel2 == 0 && Time.time - CreateTime2 >= 4)
+            {
+                StartCoroutine(Level2Screen());
+            }
+            Level2();
         }
-        if (Time.time - CreateTime >= 2 && Time.time < 120&& Time.time >= 80)
+        else if (enemyNumLevel3 < 20)
         {
-            Instantiate(enemyTypeList[0], startPos, enemyTypeList[0].transform.localRotation);
-            Instantiate(enemyTypeList[1], startPos, enemyTypeList[0].transform.localRotation);
-            Instantiate(enemyTypeList[2], startPos, enemyTypeList[0].transform.localRotation);
-            CreateTime = Time.time;
+            if (enemyNumLevel3 == 0 && Time.time - CreateTime3 >= 4)
+            {
+                StartCoroutine(Level3Screen());
+            }
+            Level3();
+        }
+        if((enemyNumLevel1+enemyNumLevel2+enemyNumLevel3)==60 && enemyList.Count==0)
+        {
+            FindObjectOfType<SceneMenager>().Finish();
         }
         
+    }
+
+    IEnumerator Level1Screen()
+    {
+        Level1Image.SetActive(true);
+        yield return new WaitForSeconds(2f);
+        Level1Image.SetActive(false);
+    }
+
+    IEnumerator Level2Screen()
+    {
+        Level2Image.SetActive(true);
+        yield return new WaitForSeconds(2f);
+        Level2Image.SetActive(false);
+    }
+
+    IEnumerator Level3Screen()
+    {
+        Level3Image.SetActive(true);
+        yield return new WaitForSeconds(2f);
+        Level3Image.SetActive(false);
     }
 
     public void upgrade()
@@ -248,6 +292,41 @@ public class GameManager : MonoBehaviour
         if(enemyReachTargetNum == 4)
         {
             FindObjectOfType<SceneMenager>().Lose();
+        }
+    }
+
+    public void Level1()
+    { 
+        if (Time.time - CreateTime1 >= 4)
+        {
+            Instantiate(enemyTypeList[0], startPos, enemyTypeList[0].transform.localRotation);
+            enemyNumLevel1++;
+            print(enemyNumLevel1);
+            CreateTime1 = Time.time;
+        }
+    }
+
+    public void Level2()
+    {
+        if (Time.time - CreateTime2 >= 4)
+        {
+            Instantiate(enemyTypeList[0], startPos, enemyTypeList[0].transform.localRotation);
+            Instantiate(enemyTypeList[1], startPos, enemyTypeList[0].transform.localRotation);
+            enemyNumLevel2++;
+            print(enemyNumLevel2);
+            CreateTime2 = Time.time;
+        }
+    }
+    public void Level3()
+    {
+        if (Time.time - CreateTime3 >= 4)
+        {
+            Instantiate(enemyTypeList[0], startPos, enemyTypeList[0].transform.localRotation);
+            Instantiate(enemyTypeList[1], startPos, enemyTypeList[0].transform.localRotation);
+            Instantiate(enemyTypeList[2], startPos, enemyTypeList[0].transform.localRotation);
+            enemyNumLevel3++;
+            print(enemyNumLevel3);
+            CreateTime3 = Time.time;
         }
     }
 }
