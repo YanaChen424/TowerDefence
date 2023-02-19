@@ -1,3 +1,3 @@
 # TowerDefence
  
-![alt text](https://github.com/YanaChen424/TowerDefence/Screenshot.png?raw=true)
+![alt text](https://github.com/YanaChen424/TowerDefence/blob/main/Screenshot.png?raw=true)
