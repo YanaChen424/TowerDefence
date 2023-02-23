@@ -13,7 +13,8 @@ public class GameManager : MonoBehaviour
 {
 
     public string towerNameButton;
-
+    public EventSystem EventSystem;
+    public GraphicRaycaster GraphicRaycaster;
 
     public static GameManager _instance;
     public static GameManager Instance
@@ -82,19 +83,13 @@ public class GameManager : MonoBehaviour
     {
         int uiLayer = 5;
 
-        PointerEventData pointerEventData = new PointerEventData(EventSystem.current);
+        PointerEventData pointerEventData = new PointerEventData(EventSystem);
         pointerEventData.position = Input.mousePosition;
 
         List<RaycastResult> results = new List<RaycastResult>();
-        EventSystem.current.RaycastAll(pointerEventData, results);
+        GraphicRaycaster.Raycast(pointerEventData, results);
 
-        for (int i = 0; i < results.Count; i++)
-        {
-            if (results[0].gameObject.layer == uiLayer)
-                return true;
-        }
-
-        return false;
+        return results.Count > 0;
     }
 
     // Update is called once per frame
